@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Debabrata Pradhan — Python Full Stack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blueprint: #16324F;
+    --blueprint-deep: #0E2438;
+    --grid-line: rgba(234,242,248,0.075);
+    --grid-line-strong: rgba(234,242,248,0.14);
+    --ink: #EAF2F8;
+    --ink-dim: #93AFC4;
+    --marker: #F4B740;
+    --rule: rgba(234,242,248,0.28);
+    --rule-soft: rgba(234,242,248,0.14);
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background:
+      repeating-linear-gradient(0deg, var(--grid-line) 0 1px, transparent 1px 28px),
+      repeating-linear-gradient(90deg, var(--grid-line) 0 1px, transparent 1px 28px),
+      var(--blueprint);
+    color: var(--ink);
+    font-family: 'Space Grotesk', sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection{ background: var(--marker); color: var(--blueprint-deep); }
+
+  .mono{ font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.01em; }
+
+  a{ color: inherit; }
+
+  .sheet{
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- Title block (header) ---------- */
+  .titleblock{
+    padding: 56px 0 32px;
+    animation: stamp-in 0.7s ease-out both;
+  }
+  @keyframes stamp-in{
+    from{ opacity: 0; transform: scale(0.97) translateY(6px); }
+    to{ opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .titleblock-frame{
+    border: 1px solid var(--rule);
+    position: relative;
+    padding: 28px 28px 22px;
+  }
+  .titleblock-frame::before, .titleblock-frame::after,
+  .tick-tl, .tick-br{
+    content:"";
+    position:absolute;
+    width: 14px; height: 14px;
+  }
+  .titleblock-frame::before{ top:-1px; left:-1px; border-top:2px solid var(--marker); border-left:2px solid var(--marker); }
+  .titleblock-frame::after{ bottom:-1px; right:-1px; border-bottom:2px solid var(--marker); border-right:2px solid var(--marker); }
+
+  .tb-top{
+    display:flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .seal{
+    width: 68px; height: 68px;
+    border: 1.5px solid var(--rule);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    position: relative;
+  }
+  .seal::before{
+    content:"";
+    position:absolute; inset:5px;
+    border: 1px solid var(--rule-soft);
+  }
+  .seal span{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:600;
+    font-size: 1.3rem;
+    color: var(--marker);
+  }
+
+  .tb-name-block{ flex: 1 1 320px; }
+  h1.name{
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin: 0 0 6px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .role-line{
+    color: var(--ink-dim);
+    font-size: 1.05rem;
+    margin: 0;
+  }
+
+  .tb-status{
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .flag{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--marker);
+    border: 1px solid var(--marker);
+    padding: 5px 10px;
+  }
+  .flag-dot{
+    width:6px; height:6px;
+    background: var(--marker);
+    border-radius: 50%;
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:0.35; } }
+
+  .tb-fields{
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule-soft);
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .field{ font-family:'IBM Plex Mono', monospace; font-size: 0.78rem; }
+  .field-k{ color: var(--ink-dim); display:block; margin-bottom: 3px; }
+  .field-v a{ text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .field-v a:hover{ border-color: var(--marker); color: var(--marker); }
+
+  @media (max-width: 640px){
+    .tb-fields{ grid-template-columns: repeat(2, 1fr); }
+    .tb-status{ text-align: left; }
+  }
+
+  /* ---------- Sections generic ---------- */
+  section{ padding: 44px 0; border-bottom: 1px solid var(--rule-soft); }
+  section:last-of-type{ border-bottom: none; }
+
+  .sheet-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-dim);
+    margin: 0 0 20px;
+    display:flex;
+    align-items:center;
+    gap: 10px;
+  }
+  .sheet-label::after{
+    content:"";
+    height:1px;
+    flex:1;
+    background: var(--rule-soft);
+  }
+
+  h2.section-title{
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 18px;
+  }
+
+  /* ---------- Summary ---------- */
+  .note{
+    max-width: 62ch;
+    font-size: 1.05rem;
+    color: var(--ink);
+    border-left: 2px solid var(--marker);
+    padding-left: 20px;
+  }
+  .note p{ margin: 0 0 12px; }
+  .note p:last-child{ margin-bottom: 0; }
+
+  /* ---------- Skills schema table ---------- */
+  .schema{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+  }
+  .schema tr{ border-top: 1px solid var(--rule-soft); }
+  .schema tr:last-child{ border-bottom: 1px solid var(--rule-soft); }
+  .schema td{ padding: 13px 10px; vertical-align: top; }
+  .schema td.field-name{
+    font-family:'IBM Plex Mono', monospace;
+    color: var(--marker);
+    width: 150px;
+    white-space: nowrap;
+    font-size: 0.82rem;
+  }
+  .schema td.field-type{ color: var(--ink-dim); }
+  .schema td.field-type b{ color: var(--ink); font-weight: 500; }
+
+  /* ---------- Experience timeline ---------- */
+  .timeline-item{
+    display:grid;
+    grid-template-columns: 150px 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 640px){
+    .timeline-item{ grid-template-columns: 1fr; gap: 6px; }
+  }
+  .tl-scale{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-dim);
+    padding-top: 3px;
+    position: relative;
+  }
+  .tl-scale::before{
+    content:"";
+    position:absolute;
+    left: -20px; top: 4px; bottom: -8px;
+    width: 1px;
+    background: repeating-linear-gradient(0deg, var(--rule) 0 4px, transparent 4px 8px);
+  }
+  .tl-role{ font-weight: 600; font-size: 1.05rem; margin: 0 0 2px; }
+  .tl-org{ color: var(--ink-dim); font-size: 0.9rem; margin: 0 0 14px; }
+  .tl-org a{ text-decoration: none; border-bottom: 1px solid var(--rule); }
+  ul.bullets{ margin: 0; padding-left: 18px; color: var(--ink); }
+  ul.bullets li{ margin-bottom: 8px; }
+  ul.bullets li::marker{ color: var(--marker); }
+
+  /* ---------- Projects ---------- */
+  .projects{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--rule-soft);
+    border: 1px solid var(--rule-soft);
+  }
+  @media (max-width: 700px){ .projects{ grid-template-columns: 1fr; } }
+  .project{
+    background: var(--blueprint);
+    padding: 24px;
+    position: relative;
+  }
+  .proj-sheet{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--marker);
+    display:block;
+    margin-bottom: 10px;
+  }
+  .proj-title{ font-size: 1.08rem; font-weight: 600; margin: 0 0 6px; }
+  .proj-stack{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-dim);
+    margin: 0 0 12px;
+  }
+  .proj-desc{ font-size: 0.92rem; color: var(--ink); margin: 0; }
+
+  /* ---------- Education / certs ---------- */
+  .rowline{
+    display:flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 0;
+    border-top: 1px solid var(--rule-soft);
+    flex-wrap: wrap;
+  }
+  .rowline:last-child{ border-bottom: 1px solid var(--rule-soft); }
+  .rowline .r-main{ font-weight: 500; }
+  .rowline .r-sub{ color: var(--ink-dim); font-size: 0.88rem; }
+  .rowline .r-date{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--ink-dim);
+    white-space: nowrap;
+  }
+
+  /* ---------- Footer / contact title block ---------- */
+  footer{ padding: 48px 0 60px; }
+  .footer-frame{
+    border: 1px solid var(--rule);
+    padding: 30px 28px;
+    position: relative;
+  }
+  .footer-frame::before, .footer-frame::after{
+    content:"";
+    position:absolute;
+    width: 14px; height: 14px;
+  }
+  .footer-frame::before{ top:-1px; left:-1px; border-top:2px solid var(--marker); border-left:2px solid var(--marker); }
+  .footer-frame::after{ bottom:-1px; right:-1px; border-bottom:2px solid var(--marker); border-right:2px solid var(--marker); }
+
+  .footer-title{ font-size: 1.3rem; font-weight: 600; margin: 0 0 6px; }
+  .footer-sub{ color: var(--ink-dim); margin: 0 0 22px; max-width: 46ch; }
+
+  .contact-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 640px){ .contact-grid{ grid-template-columns: repeat(2, 1fr); } }
+
+  .cta-row{ display:flex; gap: 14px; flex-wrap: wrap; }
+  .btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    padding: 12px 18px;
+    border: 1px solid var(--marker);
+    color: var(--marker);
+    text-decoration: none;
+    display:inline-block;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .btn.primary{ background: var(--marker); color: var(--blueprint-deep); }
+  .btn.primary:hover{ background: transparent; color: var(--marker); }
+  .btn:not(.primary):hover{ background: var(--marker); color: var(--blueprint-deep); }
+
+  .colophon{
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-dim);
+    padding-bottom: 40px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <header class="titleblock">
+    <div class="titleblock-frame">
+      <div class="tb-top">
+        <div style="display:flex; gap:20px; align-items:flex-start;">
+          <div class="seal"><span>DP</span></div>
+          <div class="tb-name-block">
+            <h1 class="name">Debabrata Pradhan</h1>
+            <p class="role-line">Python Full Stack Developer — Django · REST APIs · React · MySQL · MongoDB</p>
+          </div>
+        </div>
+        <div class="tb-status">
+          <span class="flag"><span class="flag-dot"></span>OPEN TO WORK</span>
+        </div>
+      </div>
+      <div class="tb-fields">
+        <div class="field">
+          <span class="field-k">location</span>
+          <span class="field-v">Bengaluru, India</span>
+        </div>
+        <div class="field">
+          <span class="field-k">status</span>
+          <span class="field-v">Fresher · available in 15 days</span>
+        </div>
+        <div class="field">
+          <span class="field-k">email</span>
+          <span class="field-v"><a href="mailto:debabrata.pradhan@hotmail.com">debabrata.pradhan@hotmail.com</a></span>
+        </div>
+        <div class="field">
+          <span class="field-k">phone</span>
+          <span class="field-v"><a href="tel:+917325930090">+91 73259 30090</a></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="summary">
+    <p class="sheet-label">01 — summary</p>
+    <div class="note">
+      <p>I build web applications end to end — from a Django data model and REST API on the backend, to a React interface on the front. I'm most at home designing the schema first: normalized tables, clean CRUD flows, and validation that catches bad data before it lands in the database.</p>
+      <p>Recent Computer Science graduate, comfortable across MySQL and MongoDB, and shipping through Git from day one.</p>
+    </div>
+  </section>
+
+  <section id="skills">
+    <p class="sheet-label">02 — skills</p>
+    <table class="schema">
+      <tr>
+        <td class="field-name">languages</td>
+        <td class="field-type"><b>Python</b>, JavaScript, SQL</td>
+      </tr>
+      <tr>
+        <td class="field-name">backend</td>
+        <td class="field-type"><b>Django</b>, <b>Django REST Framework</b>, ORM, CRUD operations, MVT architecture</td>
+      </tr>
+      <tr>
+        <td class="field-name">frontend</td>
+        <td class="field-type"><b>React</b>, HTML5, CSS3, Bootstrap, JavaScript</td>
+      </tr>
+      <tr>
+        <td class="field-name">databases</td>
+        <td class="field-type"><b>MySQL</b>, <b>MongoDB</b>, database design, query optimization</td>
+      </tr>
+      <tr>
+        <td class="field-name">tools</td>
+        <td class="field-type">Git, GitHub, Postman, VS Code, AWS</td>
+      </tr>
+      <tr>
+        <td class="field-name">foundations</td>
+        <td class="field-type">Data Structures & Algorithms, OOP, debugging, Agile/SDLC</td>
+      </tr>
+    </table>
+  </section>
+
+  <section id="experience">
+    <p class="sheet-label">03 — experience</p>
+    <div class="timeline-item">
+      <div class="tl-scale">JUL 2024<br>—<br>SEP 2024</div>
+      <div>
+        <p class="tl-role">Full Stack Developer, Intern</p>
+        <p class="tl-org">OctaNet Service Private Limited · Remote</p>
+        <ul class="bullets">
+          <li>Built a console-based ATM simulation in Python with object-oriented design, modelling deposits, withdrawals, and balance checks as separate account operations.</li>
+          <li>Added structured exception handling and input validation, cutting unhandled runtime errors by roughly 30%.</li>
+          <li>Connected the app to a MySQL database so transaction records persisted reliably across sessions, with full CRUD support.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <p class="sheet-label">04 — projects</p>
+    <div class="projects">
+      <div class="project">
+        <span class="proj-sheet">sheet A</span>
+        <p class="proj-title"><a href="https://github.com/Debabrata-Pradhan/Blood-Bank-Management-System" target="_blank" rel="noopener" style="text-decoration:none; border-bottom:1px solid var(--rule);">Blood Bank Management System ↗</a></p>
+        <p class="proj-stack">Python · Django · MySQL · Bootstrap</p>
+        <p class="proj-desc">A full-stack app for tracking donors, blood stock, and hospital requests. Django ORM models a normalized schema, with role-based access keeping donor and hospital data separated by who's allowed to see it.</p>
+      </div>
+      <div class="project">
+        <span class="proj-sheet">sheet B</span>
+        <p class="proj-title">Django CRUD Application</p>
+        <p class="proj-stack">Python · Django · DRF · MySQL</p>
+        <p class="proj-desc">A REST API exposing full Create, Read, Update, Delete endpoints, following Django's MVT pattern with validated JSON responses. Every endpoint was tested in Postman before integration.</p>
+      </div>
+      <div class="project">
+        <span class="proj-sheet">sheet C</span>
+        <p class="proj-title">Stock Management System</p>
+        <p class="proj-stack">Python · Django · MySQL · REST APIs</p>
+        <p class="proj-desc">Tracks stock levels, purchases, and sales in real time through a Django REST backend. Query tuning brought inventory lookup times down noticeably, even under concurrent updates.</p>
+      </div>
+      <div class="project">
+        <span class="proj-sheet">sheet D</span>
+        <p class="proj-title">ATM Machine Simulation</p>
+        <p class="proj-stack">Python · OOP · Exception Handling</p>
+        <p class="proj-desc">A console app modelling account operations with object-oriented, modular design — the same architectural thinking later applied at OctaNet, built here as a standalone exercise.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <p class="sheet-label">05 — education & certifications</p>
+    <div class="rowline">
+      <div>
+        <p class="r-main">B.Tech, Computer Science & Engineering</p>
+        <p class="r-sub">Srinix College of Engineering, Balasore, Odisha</p>
+      </div>
+      <div class="r-date">2021 – 2025</div>
+    </div>
+    <div class="rowline">
+      <div>
+        <p class="r-main">Full Stack Python Development</p>
+        <p class="r-sub">Naresh IT</p>
+      </div>
+      <div class="r-date">certification</div>
+    </div>
+    <div class="rowline">
+      <div>
+        <p class="r-main">Python Programming</p>
+        <p class="r-sub">Udemy & Great Learning</p>
+      </div>
+      <div class="r-date">certification</div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="sheet-label">06 — contact</p>
+    <div class="footer-frame">
+      <p class="footer-title">Let's talk about a role.</p>
+      <p class="footer-sub">I'm looking for a full-stack or backend developer position and can join within 15 days.</p>
+
+      <div class="contact-grid">
+        <div class="field">
+          <span class="field-k">email</span>
+          <span class="field-v"><a href="mailto:debabrata.pradhan@hotmail.com">debabrata.pradhan@hotmail.com</a></span>
+        </div>
+        <div class="field">
+          <span class="field-k">phone</span>
+          <span class="field-v"><a href="tel:+917325930090">+91 73259 30090</a></span>
+        </div>
+        <div class="field">
+          <span class="field-k">linkedin</span>
+          <span class="field-v"><a href="https://linkedin.com/in/debabrata-pradhan-345007275" target="_blank" rel="noopener">/debabrata-pradhan</a></span>
+        </div>
+        <div class="field">
+          <span class="field-k">github</span>
+          <span class="field-v"><a href="https://github.com/Debabrata-Pradhan" target="_blank" rel="noopener">/Debabrata-Pradhan</a></span>
+        </div>
+      </div>
+
+      <div class="cta-row">
+        <a class="btn primary" href="mailto:debabrata.pradhan@hotmail.com">Email me</a>
+        <a class="btn" href="Debabrata Pradhan Resume.pdf" target="_blank">Download resume</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<p class="colophon">Drawn up by Debabrata Pradhan · Bengaluru, India</p>
+
+</body>
+</html>
